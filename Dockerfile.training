@@ -1,0 +1,19 @@
+FROM nvidia/cuda:12.1.1-cudnn8-runtime-ubuntu22.04
+
+# Basics
+RUN apt-get update && apt-get install -y \
+    python3 python3-pip git curl unzip && \
+    rm -rf /var/lib/apt/lists/*
+
+# Install PyTorch GPU
+RUN pip install --upgrade pip
+RUN pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+
+# Install required libraries
+RUN pip install ultralytics rasterio geopandas shapely opencv-python pillow fastapi uvicorn
+
+WORKDIR /app
+COPY . /app
+
+CMD ["bash"]
+
